@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Website Skeleton build with Node, Express and Handlebars 👋</h1>
+<h1 align="center">Welcome to Node.js Simple Chat Application build with Node, Express and WebSockets 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/npm-%3E%3D5.5.0-blue.svg" />
@@ -9,22 +9,25 @@
   <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
-  <a href="https://github.com/austinnoronha/Express-Node-Web-Server-with-Handlebars/blob/main/LICENSE" target="_blank">
+  <a href="https://github.com/austinnoronha/nodejs-express-websockets.git/blob/main/LICENSE" target="_blank">
     <img alt="License: CreativeCommons" src="https://img.shields.io/github/license/austinnoronha/Website Skeleton build with Node, Express and Handlebars" />
   </a>
   <a href="https://twitter.com/austinnoronha" target="_blank">
     <img alt="Twitter: austinnoronha" src="https://img.shields.io/twitter/follow/austinnoronha.svg?style=social" />
   </a>
+  <a href="https://twitter.com/buzzingcode" target="_blank">
+    <img alt="Twitter: buzzingcode" src="https://img.shields.io/twitter/follow/austinnoronha.svg?style=social" />
+  </a>
 </p>
 
-> This is a simple node express website that you can use as a starter project template. It includes handlebars as it's view engine, cors, routes, dotenv for configuration.
+> This is a simple node express chat app (for learning only) that you can use as a starter project template. It includes websockets for chat connectivity to and fro from server - browser.
 
-### 🏠 [Homepage](https://github.com/austinnoronha/Express-Node-Web-Server-with-Handlebars)
+### 🏠 [Homepage](https://github.com/austinnoronha/nodejs-express-websockets)
 
 ## Prerequisites
 
-- npm >=5.5.0
-- node >=9.3.0
+- npm
+- node 
 
 ## Install
 
@@ -55,7 +58,7 @@ npm run dev
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/austinnoronha/Express-Node-Web-Server-with-Handlebars/issues). You can also take a look at the [contributing guide](https://github.com/kefranabg/readme-md-generator/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/austinnoronha/nodejs-express-websockets.git/issues). You can also take a look at the [contributing guide](https://github.com/kefranabg/readme-md-generator/blob/master/CONTRIBUTING.md).
 
 ## Show your support
 
@@ -64,7 +67,7 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2021 [Austin Noronha](https://github.com/austinnoronha).<br />
-This project is [CreativeCommons](https://github.com/austinnoronha/Express-Node-Web-Server-with-Handlebars/blob/main/LICENSE) licensed.
+This project is [CreativeCommons](https://github.com/austinnoronha/nodejs-express-websockets.git/blob/main/LICENSE) licensed.
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

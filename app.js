@@ -1,69 +1,65 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const debug = require('debug')('webapp:server:app');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const rfs = require('rotating-file-stream') // version 2.x
-const exphbs  = require('express-handlebars');
-const dotenv = require('dotenv');
+const bodyParser = require('body-parser')
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const mongoose = require('mongoose');
 const cors = require('cors');
 
-// load .env configuration
-dotenv.config();
+// Setup the index.html to be server from main dir
+app.use(express.static(__dirname));
 
-// set routers
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const aboutusRouter = require('./routes/aboutus');
-const app = express();
+// Parse Post Body as JSON
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
 
-// setup cors
-//app.use(cors());// Allow origin for all i.e *
-
-// allow origin for selected URLs
-var allowedOrigins = [`http://localhost:${process.env.PORT || '3000'}`,'http://yourapp.com'];
-
+// Cors 
 app.use(cors({
-    origin: function(origin, callback){
-      // allow requests with no origin 
-      // (like mobile apps or curl requests)
-      if(!origin) return callback(null, true);
-      if(allowedOrigins.indexOf(origin) === -1){
-        var msg = 'The CORS policy for this site does not ' +
-                  'allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    }
+  origin: '*'
 }));
 
-// create morgan logger to console
-app.use(logger( process.env.MORGAN_LOGGER || 'dev'));
+// Model message
+var Message = mongoose.model('Message',{
+  name : String,
+  message : String
+})
 
-// create a rotating write stream
-var accessLogStream = rfs.createStream('access.log', {
-    interval: '1d', // rotate daily
-    path: path.join(__dirname, 'logs')
+// All messages are stored in a common array
+var messages = [];
+
+// Route GET /messages to get all messages
+app.get('/messages', (req, res) => {
+  Message.find({},(err, messages) => {
+    res.send(messages);
+  })
+})
+
+// Route POST /messages to add new  message in messages
+app.post('/messages', (req, res) => {
+  if(req.body.name == '' || req.body.message == ''){
+    res.send('Body cannot be blank!', 500);
+    return;
+  }
+  var message = new Message(req.body);
+  messages.push(message);
+
+  // Add to mongo DB using .save()
+  // ...
+
+  // Broadcast same message to all users connected
+  io.emit('message', req.body);
+
+  // HTTP send response code
+  res.sendStatus(200);
+})
+
+// Socket.IO connection event listener
+io.on('connection', () =>{
+  console.log('**A new user is connected to your chat!')
+})
+
+// Server Express server on port 3000
+var server = http.listen(3000, () => {
+  console.log('Server is running on port: ', server.address().port);
+  console.log('Website can be accessed on http://localhost:%s', server.address().port)
 });
-
-// setup the logger
-app.use(logger('combined', { stream: accessLogStream }))
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/aboutus', aboutusRouter);
-// handle 404 Error page
-app.use((req, res,next) => {
-    res.status('404').render('404', { title: 'Page not found!'});
-});
-
-module.exports = app;
